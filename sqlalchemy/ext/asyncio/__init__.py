@@ -33,7 +33,10 @@ if t.TYPE_CHECKING:
     from asyncpg import transaction as transaction_
 
 ConnectionT = t_ex.TypeVar(
-    "ConnectionT", "asyncpg.Connection[asyncpg.Record]", "asyncpg.pool.PoolConnectionProxy[asyncpg.Record]", default="asyncpg.pool.PoolConnectionProxy[asyncpg.Record]"
+    "ConnectionT",
+    "asyncpg.Connection[asyncpg.Record]",
+    "asyncpg.pool.PoolConnectionProxy[asyncpg.Record]",
+    default="asyncpg.pool.PoolConnectionProxy[asyncpg.Record]",
 )
 
 

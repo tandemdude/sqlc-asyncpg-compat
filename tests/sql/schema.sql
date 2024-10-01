@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS sqlc_test (
+    name TEXT NOT NULL PRIMARY KEY,
+    description TEXT DEFAULT NULL
+);
