@@ -25,7 +25,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-dependencies = ["asyncpg>=0.29.0, <0.30"]
+dependencies = ["asyncpg>=0.29.0, <0.30", "typing_extensions>=4.12.2, <5"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
@@ -36,7 +36,6 @@ dev = ["nox==2024.4.15"]
 "dev.test" = [
     "pytest>=8.3.2, <9",
     "pytest-asyncio>=0.23.8, <0.25",
-    "pytest-cov>=5.0.0, <6",
     "pytest-randomly>=3.15.0, <4"
 ]
 "dev.release" = ["flit==3.9.0"]
