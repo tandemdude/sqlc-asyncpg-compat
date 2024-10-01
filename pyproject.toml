@@ -9,7 +9,7 @@ requires-python = ">=3.10.0,<3.13"
 authors = [{name = "tandemdude", email = "tandemdude1@gmail.com"}]
 keywords = ["hikari"]
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",
     "Framework :: AsyncIO",
     "Intended Audience :: Developers",
@@ -27,12 +27,6 @@ classifiers = [
 ]
 dependencies = ["asyncpg>=0.29.0, <0.30"]
 dynamic = ["version", "description"]
-
-#[project.urls]
-#Homepage = "https://github.com/tandemdude/hikari-lightbulb"
-#Repository = "https://github.com/tandemdude/hikari-lightbulb"
-#Documentation = "https://hikari-lightbulb.readthedocs.io/en/latest/"
-#Changelog = "https://hikari-lightbulb.readthedocs.io/en/latest/changelog.html"
 
 [project.optional-dependencies]
 dev = ["nox==2024.4.15"]
@@ -115,8 +109,8 @@ require-superclass = true
 require-subclass = true
 
 [tool.pyright]
-include = ["sqlalchemy"]
-exclude = ["docs", ".github"]
+include = ["sqlalchemy", "tests"]
+exclude = [".github"]
 pythonVersion = "3.10"
 typeCheckingMode = "strict"
 

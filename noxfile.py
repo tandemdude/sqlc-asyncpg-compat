@@ -27,6 +27,7 @@ from nox import options
 
 SCRIPT_PATHS = [
     os.path.join(".", "sqlalchemy"),
+    os.path.join(".", "tests"),
     "noxfile.py",
 ]
 

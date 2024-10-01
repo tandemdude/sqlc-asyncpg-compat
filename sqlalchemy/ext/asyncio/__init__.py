@@ -23,6 +23,8 @@ __all__ = ["AsyncConnection"]
 
 import typing as t
 
+import typing_extensions as t_ex
+
 if t.TYPE_CHECKING:
     from collections.abc import AsyncIterator
 
@@ -30,8 +32,8 @@ if t.TYPE_CHECKING:
     from asyncpg import cursor as cursor_
     from asyncpg import transaction as transaction_
 
-ConnectionT = t.TypeVar(
-    "ConnectionT", "asyncpg.Connection[asyncpg.Record]", "asyncpg.pool.PoolConnectionProxy[asyncpg.Record]"
+ConnectionT = t_ex.TypeVar(
+    "ConnectionT", "asyncpg.Connection[asyncpg.Record]", "asyncpg.pool.PoolConnectionProxy[asyncpg.Record]", default="asyncpg.pool.PoolConnectionProxy[asyncpg.Record]"
 )
 
 
@@ -48,25 +50,18 @@ class ResultProxy:
         return tuple(self._data)
 
 
-class StreamProxy(t.Generic[ConnectionT]):
+class StreamProxy:
     __slots__ = ("_conn", "_cursor", "_cursor_iter", "_transaction")
 
-    def __init__(self, conn: ConnectionT, cursor: cursor_.CursorFactory[asyncpg.Record]) -> None:
-        self._conn = conn
+    def __init__(self, transaction: transaction_.Transaction, cursor: cursor_.CursorFactory[asyncpg.Record]) -> None:
         self._cursor = cursor
-        self._cursor_iter: AsyncIterator[asyncpg.Record] | None = None
-        self._transaction: transaction_.Transaction | None = None
+        self._cursor_iter: AsyncIterator[asyncpg.Record] = aiter(self._cursor)
+        self._transaction = transaction
 
     def __aiter__(self) -> AsyncIterator[asyncpg.Record]:
         return self
 
     async def __anext__(self) -> asyncpg.Record:
-        if self._transaction is None:
-            self._transaction = self._conn.transaction()
-            await self._transaction.start()
-            self._cursor_iter = aiter(self._cursor)
-
-        assert self._cursor_iter is not None
         try:
             assert self._cursor_iter is not None
             return await anext(self._cursor_iter)
@@ -108,9 +103,13 @@ class AsyncConnection(t.Generic[ConnectionT]):
 
     # METHODS USED BY SQLC ASYNC QUERIER
 
-    def stream(self, query: str, params: dict[str, t.Any] | None = None) -> AsyncIterator[t.Any]:
+    async def stream(self, query: str, params: dict[str, t.Any] | None = None) -> AsyncIterator[t.Any]:
         param_tuple = self._convert_params(params or {})
-        return StreamProxy(self.conn, self.conn.cursor(query, *param_tuple))
+
+        transaction = self.conn.transaction()
+        await transaction.start()
+
+        return StreamProxy(transaction, self.conn.cursor(query, *param_tuple))
 
     async def execute(self, query: str, params: dict[str, t.Any] | None = None) -> ResultProxy:
         param_tup = self._convert_params(params or {})
