@@ -92,7 +92,7 @@ jobs:
 
       - name: Run pytest
         env:
-          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
         run: |
           pip install ".[dev.test]"
           pytest tests
