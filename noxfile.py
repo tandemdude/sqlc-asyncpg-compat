@@ -46,24 +46,24 @@ def nox_session(**kwargs: t.Any) -> Callable[[Callable[[nox.Session], None]], Ca
 
 @nox_session()
 def format_fix(session: nox.Session) -> None:
-    session.install("-U", ".[localization,crontrigger,dev.format]")
+    session.install("-U", ".[dev.format]")
     session.run("python", "-m", "ruff", "format", *SCRIPT_PATHS)
     session.run("python", "-m", "ruff", "check", "--fix", *SCRIPT_PATHS)
 
 
 @nox_session()
 def format_check(session: nox.Session) -> None:
-    session.install("-U", ".[localization,crontrigger,dev.format]")
+    session.install("-U", ".[dev.format]")
     session.run("python", "-m", "ruff", "format", *SCRIPT_PATHS, "--check")
     session.run("python", "-m", "ruff", "check", "--output-format", "github", *SCRIPT_PATHS)
 
 
 @nox_session()
 def typecheck(session: nox.Session) -> None:
-    session.install("-U", ".[localization,crontrigger,dev.typecheck,dev.test]")
+    session.install("-U", ".[dev.typecheck,dev.test]")
     session.run("python", "-m", "pyright")
 
 
 @nox_session()
 def slotscheck(session: nox.Session) -> None:
-    session.install("-U", ".[localization,crontrigger,dev.slotscheck]")
+    session.install("-U", ".[dev.slotscheck]")
