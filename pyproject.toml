@@ -38,7 +38,7 @@ dev = ["nox==2025.2.9"]
     "pytest-asyncio>=0.23.8, <0.26",
     "pytest-randomly>=3.15.0, <4"
 ]
-"dev.release" = ["flit==3.10.1"]
+"dev.release" = ["flit==3.11.0"]
 
 [tool.flit.module]
 name = "sqlalchemy"
