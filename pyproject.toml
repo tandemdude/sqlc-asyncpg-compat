@@ -29,7 +29,7 @@ dependencies = ["asyncpg>=0.29.0, <0.31", "typing_extensions>=4.12.2, <5"]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
-dev = ["nox==2025.2.9"]
+dev = ["nox==2025.5.1"]
 "dev.format" = ["ruff==0.11.7"]
 "dev.typecheck" = ["pyright==1.1.400", "asyncpg-stubs>=0.29.1, <0.31"]
 "dev.slotscheck" = ["slotscheck>=0.19.0, <1"]
