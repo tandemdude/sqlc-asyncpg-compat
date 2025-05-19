@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This library is now archived and will not be receiving any updates. You should use the [better sqlc python plugin](https://github.com/rayakame/sqlc-gen-better-python) instead.
+
 # sqlc-asyncpg-compat
 
 Compatibility layer for sqlc generated python code, to allow database interactions to be done using
